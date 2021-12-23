@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WeightListItem = ({ weight }) => {
-  return <li key={weight.id}>{weight.total}</li>;
+  return <li>{weight.total}</li>;
 };
 
 export default WeightListItem;

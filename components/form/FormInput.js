@@ -1,12 +1,14 @@
 import React from 'react';
 
-const FormInput = ({ type, name, label }) => {
+const FormInput = ({ ...props }) => {
+  const { id, label, ...restProps } = props;
+
   return (
     <>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={id}>{label}</label>
       <input
-        id={name}
-        type={type}
+        id={id}
+        {...restProps}
         className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
       ></input>
     </>

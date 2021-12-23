@@ -7,7 +7,7 @@ const WeightList = ({ weights }) => {
       <h1 className='text-3xl font-bold underline mb-2'>Weight tracker</h1>
       <ul className='list-disc list-inside'>
         {weights.map((weight) => (
-          <WeightListItem weight={weight} />
+          <WeightListItem key={weight.id} weight={weight} />
         ))}
       </ul>
     </div>
