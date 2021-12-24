@@ -1,13 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { WeightsContext } from '../../context/WeightsContext';
 import FormButton from '../form/FormButton';
 import FormInput from '../form/FormInput';
 
 const WeightForm = () => {
-  // component level state
+  // global state
+  const { current, clearCurrent, addWeight, updateWeight } =
+    useContext(WeightsContext);
+
+  useEffect(() => {
+    if (current !== null) {
+      setWeight(current);
+    } else {
+      setWeight({
+        total: '',
+        date: '',
+      });
+    }
+  }, [current]);
+
+  // component state
   const [weight, setWeight] = useState({
-    total: 0,
+    total: '',
     date: '',
   });
+
+  const { total, date } = weight;
 
   const onChange = (e) => {
     setWeight({ ...weight, [e.target.name]: e.target.value });
@@ -16,11 +34,17 @@ const WeightForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // add weight
+    if (current === null) {
+      addWeight(weight);
+    } else {
+      updateWeight(weight);
+    }
 
-    // update weight
+    clearAll();
+  };
 
-    console.log(weight);
+  const clearAll = () => {
+    clearCurrent();
   };
 
   return (
@@ -34,6 +58,7 @@ const WeightForm = () => {
             id='total'
             step='any'
             label='Weight'
+            value={total}
             onChange={onChange}
           />
         </div>
@@ -43,11 +68,21 @@ const WeightForm = () => {
             name='date'
             id='date'
             label='Date'
+            value={date}
             onChange={onChange}
           />
         </div>
         <div className='col-span-4 flex flex-row-reverse'>
-          <FormButton type='submit' label='Save' />
+          <FormButton
+            type='submit'
+            label={current === null ? 'Add Weight' : 'Edit Weight'}
+          />
+          <button
+            className='mr-2 py-2 px-4 border shadow-sm text-sm font-medium rounded-md bg-white hover:bg-gray-50'
+            onClick={clearAll}
+          >
+            Clear
+          </button>
         </div>
       </div>
     </form>

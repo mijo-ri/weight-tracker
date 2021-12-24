@@ -13,7 +13,7 @@ const Home = ({ initialWeights }) => {
 };
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3001/weights');
+  const res = await fetch('http://localhost:3001/weights?_sort=date');
   const weights = await res.json();
 
   return {
