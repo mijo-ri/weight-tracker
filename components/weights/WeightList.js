@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { WeightsContext } from '../../context/WeightsContext';
 import WeightListItem from './WeightListItem';
 
-const WeightList = ({ weights }) => {
+const WeightList = () => {
+  const { weights } = useContext(WeightsContext);
+
   return (
     <div>
       <h1 className='text-3xl font-bold underline mb-2'>Weight tracker</h1>

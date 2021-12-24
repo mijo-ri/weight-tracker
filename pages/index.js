@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import WeightDashboard from '../components/weights/WeightDashboard';
+import { WeightsContext } from '../context/WeightsContext';
 
-const Home = ({ weights }) => {
-  return <WeightDashboard weights={weights} />;
+const Home = ({ initialWeights }) => {
+  const { weights, setWeights } = useContext(WeightsContext);
+
+  useEffect(() => {
+    setWeights(initialWeights);
+  }, []);
+
+  return <WeightDashboard />;
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch('http://localhost:3001/weights');
   const weights = await res.json();
 
   return {
     props: {
-      weights,
+      initialWeights: weights,
     },
   };
 }
