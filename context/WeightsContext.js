@@ -63,6 +63,31 @@ const WeightsProvider = ({ children }) => {
     }
   };
 
+  // Delete Weight
+  const deleteWeight = async (deletedWeight) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/weights/${deletedWeight.id}`,
+        {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      setWeights((prevWeights) => {
+        const existingWeights = [...prevWeights];
+
+        let updatedWeights = existingWeights.filter(
+          (weight) => weight.id !== deletedWeight.id
+        );
+
+        return updatedWeights;
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <WeightsContext.Provider
       value={{
@@ -73,6 +98,7 @@ const WeightsProvider = ({ children }) => {
         clearCurrent,
         addWeight,
         updateWeight,
+        deleteWeight,
       }}
     >
       {children}

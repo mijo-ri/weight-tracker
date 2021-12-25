@@ -5,7 +5,7 @@ import FormInput from '../form/FormInput';
 
 const WeightForm = () => {
   // global state
-  const { current, clearCurrent, addWeight, updateWeight } =
+  const { current, clearCurrent, addWeight, updateWeight, deleteWeight } =
     useContext(WeightsContext);
 
   useEffect(() => {
@@ -34,6 +34,9 @@ const WeightForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    // validate data
+    if (!(total && date)) return;
+
     if (current === null) {
       addWeight(weight);
     } else {
@@ -45,6 +48,11 @@ const WeightForm = () => {
 
   const clearAll = () => {
     clearCurrent();
+  };
+
+  const onDelete = () => {
+    deleteWeight(current);
+    clearAll();
   };
 
   return (
@@ -77,12 +85,22 @@ const WeightForm = () => {
             type='submit'
             label={current === null ? 'Add Weight' : 'Edit Weight'}
           />
-          <button
-            className='mr-2 py-2 px-4 border shadow-sm text-sm font-medium rounded-md bg-white hover:bg-gray-50'
+          <FormButton
+            type='button'
             onClick={clearAll}
-          >
-            Clear
-          </button>
+            label='Clear'
+            variant='default'
+            appendClassName='mr-2'
+          />
+          {current && (
+            <FormButton
+              type='button'
+              onClick={onDelete}
+              label='Delete'
+              variant='danger'
+              appendClassName='mr-2'
+            />
+          )}
         </div>
       </div>
     </form>
